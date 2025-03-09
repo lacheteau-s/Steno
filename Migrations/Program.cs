@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Migrations;
+using Migrations.Services;
 
-var host = Host.CreateApplicationBuilder(args).Build();
+var builder = Host.CreateApplicationBuilder(args);
 
-var config = host.Services.GetRequiredService<IConfiguration>();
+builder.Services.ConfigureDefaults();
 
-Console.WriteLine(config.GetConnectionString("Database"));
+var host = builder.Build();
+var dbManager = host.Services.GetRequiredService<DatabaseManager>();
 
+dbManager.Run();
