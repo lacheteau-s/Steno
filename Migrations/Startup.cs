@@ -9,5 +9,6 @@ internal static class Startup
     {
         services.AddSingleton<DatabaseManager>();
         services.AddSingleton<DatabaseInitializer>();
+        services.AddSingleton<DatabaseUpdater>();
     }
 }
