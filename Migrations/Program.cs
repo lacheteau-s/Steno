@@ -10,4 +10,4 @@ builder.Services.ConfigureDefaults();
 var host = builder.Build();
 var dbManager = host.Services.GetRequiredService<DatabaseManager>();
 
-dbManager.Run();
+await dbManager.RunAsync();
