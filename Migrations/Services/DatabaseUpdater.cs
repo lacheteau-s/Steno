@@ -5,10 +5,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Migrations.Services;
 
-internal sealed class DatabaseUpdater(ILogger<DatabaseUpdater> logger, IConfiguration config)
+internal sealed class DatabaseUpdater(
+    ILogger<DatabaseUpdater> logger,
+    IConfiguration config,
+    SqlScriptsProvider sqlScriptsProvider)
 {
     private readonly ILogger<DatabaseUpdater> _logger = logger;
     private readonly string _connectionString = config.GetConnectionString(CONNECTION_STRING_NAME)!;
+    private readonly SqlScriptsProvider _sqlScriptsProvider = sqlScriptsProvider;
 
     private const string CONNECTION_STRING_NAME = "Database";
     private const string VERIFY_SCHEMA_VERSION_QUERY = "SELECT OBJECT_ID('SchemaVersion', 'U')";
@@ -17,8 +21,9 @@ internal sealed class DatabaseUpdater(ILogger<DatabaseUpdater> logger, IConfigur
     public async Task UpdateDatabase(CancellationToken ct)
     {
         var currentVersion = await GetCurrentVersion(ct);
+        var expectedVersion = GetExpectedVersion();
 
-        _logger.LogInformation("Current database version: {currentVersion}", currentVersion);
+        _logger.LogInformation("Expected database version: {currentVersion}", expectedVersion);
     }
 
     private async Task<int?> GetCurrentVersion(CancellationToken ct)
@@ -30,6 +35,16 @@ internal sealed class DatabaseUpdater(ILogger<DatabaseUpdater> logger, IConfigur
 
         if (version != null)
             version = await connection.ExecuteScalarAsync<int>(GET_CURRENT_SCHEMA_VERSION_QUERY);
+
+        return version;
+    }
+
+    private int GetExpectedVersion()
+    {
+        var version = _sqlScriptsProvider.GetScripts().Select(x => x.Version).LastOrDefault(-1);
+
+        if (version < 0)
+            throw new InvalidOperationException("Unable to determine expected database version. No migration scripts found");
 
         return version;
     }
