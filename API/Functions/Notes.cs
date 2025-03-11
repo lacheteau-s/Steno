@@ -12,6 +12,23 @@ public class Notes(ILogger<Notes> logger)
 {
     private readonly ILogger<Notes> _logger = logger;
 
+    [Function("CreateNote")]
+    [OpenApiOperation("CreateNote")]
+    [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+    [OpenApiRequestBody("application/json", typeof(string))]
+    [OpenApiResponseWithBody(System.Net.HttpStatusCode.OK, "application/json", typeof(string))]
+    public async Task<IResult> CreateNote(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "notes")] HttpRequest req
+    )
+    {
+        var note = await req.ReadFromJsonAsync<string>();
+
+        if (string.IsNullOrWhiteSpace(note))
+            return TypedResults.BadRequest("Note content is required.");
+
+        return TypedResults.Ok(note);
+    }
+
     [Function("GetNotes")]
     [OpenApiOperation("GetNotes")]
     [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
