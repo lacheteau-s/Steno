@@ -3,7 +3,8 @@
     "API": {
       "commandName": "Project",
       "commandLineArgs": "--port 7278",
-      "launchBrowser": false
+      "launchBrowser": true,
+      "launchUrl": "api/swagger/ui"
     }
   }
 }
