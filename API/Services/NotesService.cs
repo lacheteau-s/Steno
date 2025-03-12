@@ -41,4 +41,16 @@ public class NotesService(IConfiguration config)
         
         return notes;
     }
+
+    public async Task<NoteModel?> GetNoteAsync(int id)
+    {
+        await using var connection = new SqlConnection(_config.GetConnectionString("Database"));
+        await connection.OpenAsync();
+
+        var note = await connection.QuerySingleOrDefaultAsync<NoteModel>(
+            "SELECT * FROM Notes WHERE Id = @Id",
+            new { Id = id });
+
+        return note;
+    }
 }

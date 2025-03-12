@@ -62,4 +62,29 @@ public class Notes(
             return TypedResults.InternalServerError(ex.Message);
         }
     }
+
+    [Function("GetNote")]
+    [OpenApiOperation("GetNote")]
+    [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+    [OpenApiParameter("id", Type = typeof(int), In = ParameterLocation.Path, Required = true)]
+    [OpenApiResponseWithBody(System.Net.HttpStatusCode.OK, "application/json", typeof(NoteModel))]
+    public async Task<IResult> GetNote(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "notes/{id}")] HttpRequest req,
+        int id
+    )
+    {
+        try
+        {
+            var result = await _notesService.GetNoteAsync(id);
+
+            if (result is null)
+                return TypedResults.NotFound();
+
+            return TypedResults.Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return TypedResults.InternalServerError(ex.Message);
+        }
+    }
 }
