@@ -47,27 +47,19 @@ public class Notes(
     [OpenApiOperation("GetNotes")]
     [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
     [OpenApiResponseWithBody(System.Net.HttpStatusCode.OK, "application/json", typeof(IEnumerable<NoteModel>))]
-    public IResult GetNotes(
+    public async Task<IResult> GetNotes(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "notes")] HttpRequest req
     )
     {
-        var result = new[]
+        try
         {
-            new NoteModel
-            {
-                Id = 1,
-                Content = "Note 1",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            },
-            new NoteModel
-            {
-                Id = 1,
-                Content = "Note 2",
-                CreatedAt = DateTime.UtcNow,
-            },
-        };
+            var result = await _notesService.GetNotesAsync();
 
-        return TypedResults.Ok(result);
+            return TypedResults.Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return TypedResults.InternalServerError(ex.Message);
+        }
     }
 }
