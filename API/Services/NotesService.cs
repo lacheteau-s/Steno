@@ -30,4 +30,15 @@ public class NotesService(IConfiguration config)
 
         return note;
     }
+
+    public async Task<IEnumerable<NoteModel>> GetNotesAsync()
+    {
+        await using var connection = new SqlConnection(_config.GetConnectionString("Database"));
+        await connection.OpenAsync();
+
+        var notes = await connection.QueryAsync<NoteModel>("SELECT * FROM Notes")
+            ?? throw new InvalidOperationException("An error has occurred while retrieving notes.");
+        
+        return notes;
+    }
 }
