@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrations", "Migrations\Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{B67271B5-4EA1-441E-B53B-F27F0FC6B867}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mobile", "Mobile\Mobile.csproj", "{66065C7C-D739-48F2-9E98-A2A98F07D0F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,11 @@ Global
 		{B67271B5-4EA1-441E-B53B-F27F0FC6B867}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B67271B5-4EA1-441E-B53B-F27F0FC6B867}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B67271B5-4EA1-441E-B53B-F27F0FC6B867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66065C7C-D739-48F2-9E98-A2A98F07D0F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66065C7C-D739-48F2-9E98-A2A98F07D0F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66065C7C-D739-48F2-9E98-A2A98F07D0F4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{66065C7C-D739-48F2-9E98-A2A98F07D0F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66065C7C-D739-48F2-9E98-A2A98F07D0F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
