@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mobile.ViewModels;
 
 namespace Mobile;
 
@@ -9,6 +10,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.ConfigureServices()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -20,5 +22,14 @@ public static class MauiProgram
 #endif
 
 		return builder.Build();
+	}
+
+	private static MauiAppBuilder ConfigureServices(this MauiAppBuilder builder)
+	{
+		var services = builder.Services;
+
+		services.AddSingleton<MainViewModel>();
+
+		return builder;
 	}
 }
