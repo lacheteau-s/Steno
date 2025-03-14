@@ -1,6 +1,8 @@
-﻿using Fonts;
+﻿using CommunityToolkit.Maui;
+using Fonts;
 using Microsoft.Extensions.Logging;
 using Mobile.ViewModels;
+using Mobile.Views;
 
 namespace Mobile;
 
@@ -11,6 +13,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.ConfigureServices()
 			.ConfigureFonts(fonts =>
 			{
@@ -31,6 +34,7 @@ public static class MauiProgram
 		var services = builder.Services;
 
 		services.AddSingleton<MainViewModel>();
+		services.AddTransientWithShellRoute<CreateNoteView, CreateNoteViewModel>("CreateNote");
 
 		return builder;
 	}
