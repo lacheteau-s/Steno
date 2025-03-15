@@ -7,18 +7,27 @@ namespace Mobile.ViewModels;
 public partial class CreateNoteViewModel : ObservableObject
 {
     private readonly IApiClient _apiClient;
+    private readonly IErrorHandler _errorHandler;
 
     [ObservableProperty]
     private string _content = string.Empty;
 
-    public CreateNoteViewModel(IApiClient apiClient)
+    public CreateNoteViewModel(IApiClient apiClient, IErrorHandler errorHandler)
     {
         _apiClient = apiClient;
+        _errorHandler = errorHandler;
     }
 
     [RelayCommand]
     private async Task SaveNote()
     {
-        await _apiClient.CreateNote(Content);
+        try
+        {
+            await _apiClient.CreateNote(Content);
+        }
+        catch (Exception ex)
+        {
+            _errorHandler.HandleError(ex);
+        }
     }
 }

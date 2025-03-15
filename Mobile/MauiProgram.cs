@@ -41,6 +41,8 @@ public static class MauiProgram
 		services.AddSingleton<MainViewModel>();
 		services.AddTransientWithShellRoute<CreateNoteView, CreateNoteViewModel>("CreateNote");
 
+		services.AddSingleton<IErrorHandler, AlertErrorHandler>();
+
 		services.AddRefitClient<IApiClient>()
 			.ConfigureHttpClient(c =>
 			{
