@@ -1,8 +1,12 @@
 ﻿using CommunityToolkit.Maui;
 using Fonts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Mobile.Services;
 using Mobile.ViewModels;
 using Mobile.Views;
+using Refit;
+using System.Reflection;
 
 namespace Mobile;
 
@@ -14,6 +18,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
+			.AddAppSettings()
 			.ConfigureServices()
 			.ConfigureFonts(fonts =>
 			{
@@ -35,6 +40,29 @@ public static class MauiProgram
 
 		services.AddSingleton<MainViewModel>();
 		services.AddTransientWithShellRoute<CreateNoteView, CreateNoteViewModel>("CreateNote");
+
+		services.AddRefitClient<IApiClient>()
+			.ConfigureHttpClient(c =>
+			{
+				var baseUrl = builder.Configuration.GetValue<string>("Api:BaseUrl");
+				c.BaseAddress = new Uri(baseUrl!);
+			});
+
+		return builder;
+	}
+
+	private static MauiAppBuilder AddAppSettings(this MauiAppBuilder builder)
+	{
+#if DEBUG
+		var env = "Development";
+#endif
+		using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Mobile.appsettings.{env}.json");
+
+		if (stream != null)
+		{
+			var config = new ConfigurationBuilder().AddJsonStream(stream).Build();
+			builder.Configuration.AddConfiguration(config);
+		}
 
 		return builder;
 	}
