@@ -7,4 +7,10 @@ public partial class MainViewModel : ObservableObject
 {
     [RelayCommand]
     private Task CreateNote() => Shell.Current.GoToAsync("CreateNote");
+
+    [RelayCommand]
+    private Task GetNotes()
+    {
+        return Task.CompletedTask;
+    }
 }
