@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Mobile.Constants;
 using Mobile.Services;
@@ -33,6 +35,9 @@ public partial class CreateNoteViewModel : ObservableObject
         {
             State = States.BUSY;
             await _apiClient.CreateNote(Content);
+            await Shell.Current.GoToAsync("..");
+            var cts = new CancellationTokenSource();
+            await Toast.Make("Note was saved successfully", ToastDuration.Long, 18).Show(cts.Token);
         }
         catch (Exception ex)
         {

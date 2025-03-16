@@ -16,10 +16,12 @@
 
             <Grid toolkit:StateView.StateKey="DEFAULT">
                 <Editor
+                    x:Name="Editor"
                     Text="{Binding Content, Mode=OneWayToSource}"
                     Margin="10,0"
                 />
                 <Button
+                    Clicked="OnSave"
                     Command="{Binding SaveNoteCommand}"
                     VerticalOptions="End" HorizontalOptions="End"
                     WidthRequest="60" HeightRequest="60"
