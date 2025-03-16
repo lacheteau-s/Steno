@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Mobile.Models;
 using Mobile.Services;
 
 namespace Mobile.ViewModels;
@@ -10,7 +9,7 @@ public partial class MainViewModel : ObservableObject
     private readonly IApiClient _apiClient;
 
     [ObservableProperty]
-    private IEnumerable<NoteModel> _notes = [];
+    private IEnumerable<NoteViewModel> _notes = [];
 
     public MainViewModel(IApiClient apiClient)
     {
@@ -23,6 +22,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task GetNotes()
     {
-        Notes = await _apiClient.GetNotes();
+        var notes = await _apiClient.GetNotes();
+        Notes = notes.Select(x => new NoteViewModel(x));
     }
 }
