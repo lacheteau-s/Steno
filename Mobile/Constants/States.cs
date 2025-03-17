@@ -4,4 +4,5 @@ public static class States
 {
     public const string DEFAULT = nameof(DEFAULT);
     public const string BUSY = nameof(BUSY);
+    public const string ERROR = nameof(ERROR);
 }

@@ -2,8 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Mobile.ViewModels"
+             xmlns:views="clr-namespace:Mobile.Views"
              xmlns:fonts="clr-namespace:Fonts"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:constants="clr-namespace:Mobile.Constants"
              x:Class="Mobile.Views.MainView"
              x:DataType="viewModels:MainViewModel"
              x:Name="ContentPage">
@@ -16,92 +18,12 @@
         />
     </ContentPage.Behaviors>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <CollectionView
-            ItemsSource="{Binding Notes}"
-        >
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:NoteViewModel">
-                    <Grid
-                        RowSpacing="10" Margin="10,5" Padding="10"
-                        Background="{StaticResource Gray600}"
-                    >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="1" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" ColumnSpacing="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="16" />
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" HeightRequest="16" WidthRequest="16">
-                                <Image.Source>
-                                    <FontImageSource
-                                        Glyph="{x:Static fonts:FluentUI.calendar_ltr_16_regular}"
-                                        FontFamily="{x:Static fonts:FluentUI.FontFamily}"
-                                        Color="{StaticResource White}"
-                                        Size="16"
-                                    />
-                                </Image.Source>
-                            </Image>
-                            <Label Grid.Column="1" Text="{Binding CreationDate}" Margin="0,0,5,0" />
-                            <Image Grid.Column="2" HeightRequest="16" WidthRequest="16" Margin="5,0,0,0">
-                                <Image.Source>
-                                    <FontImageSource
-                                        Glyph="{x:Static fonts:FluentUI.clock_16_regular}"
-                                        FontFamily="{x:Static fonts:FluentUI.FontFamily}"
-                                        Color="{StaticResource White}"
-                                        Size="16"
-                                    />
-                                </Image.Source>
-                            </Image>
-                            <Label Grid.Column="3" Text="{Binding CreationTime}" />
-                            <Image Grid.Column="4" HeightRequest="16" WidthRequest="16" IsVisible="{Binding IsImported}">
-                                <Image.Source>
-                                    <FontImageSource
-                                        Glyph="{x:Static fonts:FluentUI.notepad_16_regular}"
-                                        FontFamily="{x:Static fonts:FluentUI.FontFamily}"
-                                        Color="{StaticResource Gray400}"
-                                        Size="16"
-                                    />
-                                </Image.Source>
-                            </Image>
-                        </Grid>
-                        <BoxView Grid.Row="1" Color="{StaticResource PrimaryDark}" HeightRequest="1" />
-                        <Label Grid.Row="2" Text="{Binding Content}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <Button
-            Command="{Binding CreateNoteCommand}"
-            Grid.Row="0" Grid.Column="0"
-            VerticalOptions="End" HorizontalOptions="End"
-            WidthRequest="60" HeightRequest="60"
-            CornerRadius="30"
-            Margin="30"
-        >
-            <Button.ImageSource>
-                <FontImageSource
-                    Glyph="{x:Static fonts:FluentUI.add_32_regular}"
-                    FontFamily="{x:Static fonts:FluentUI.FontFamily}"
-                    Color="{StaticResource White}"
-                    Size="32"
-                />
-            </Button.ImageSource>
-        </Button>
+    <Grid toolkit:StateContainer.CurrentState="{Binding State}">
+        <toolkit:StateContainer.StateViews>
+            <views:NotesView BindingContext="{Binding}" toolkit:StateView.StateKey="{x:Static constants:States.DEFAULT}" />
+            <views:LoadingView toolkit:StateView.StateKey="{x:Static constants:States.BUSY}" />
+            <views:ErrorView BindingContext="{Binding}" toolkit:StateView.StateKey="{x:Static constants:States.ERROR}" />
+        </toolkit:StateContainer.StateViews>
     </Grid>
     
 </ContentPage>
