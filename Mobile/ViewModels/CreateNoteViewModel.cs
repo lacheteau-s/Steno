@@ -34,8 +34,15 @@ public partial class CreateNoteViewModel : ObservableObject
         try
         {
             State = States.BUSY;
-            await _apiClient.CreateNote(Content);
-            await Shell.Current.GoToAsync("..");
+
+            var note = await _apiClient.CreateNote(Content);
+            var parameters = new ShellNavigationQueryParameters
+            {
+                [QueryParameters.CreatedNote] = new NoteViewModel(note)
+            };
+
+            await Shell.Current.GoToAsync("..", parameters);
+
             var cts = new CancellationTokenSource();
             await Toast.Make("Note was saved successfully", ToastDuration.Long, 18).Show(cts.Token);
         }
