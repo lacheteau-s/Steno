@@ -2,13 +2,17 @@
 
 namespace Migrations.Services;
 
-public class ImportManager(ILogger<ImportManager> logger)
+public partial class ImportManager(ILogger<ImportManager> logger, BlobReader blobReader)
 {
     private readonly ILogger<ImportManager> _logger = logger;
+    private readonly BlobReader _reader = blobReader;
 
-    public Task RunAsync()
+    public async Task RunAsync(CancellationToken ct = default)
     {
-        _logger.LogInformation($"Importing data");
-        return Task.CompletedTask;
+        await foreach (var file in _reader.GetFiles(ct))
+        {
+            var content = await _reader.ReadFile(file, ct);
+            _logger.LogInformation("Processing content");
+        }
     }
 }

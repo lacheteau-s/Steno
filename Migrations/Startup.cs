@@ -15,6 +15,8 @@ internal static class Startup
         services.AddSingleton<SqlScriptsProvider>();
         services.AddSingleton<IFileProvider>(CreateFileProvider);
 
+        services.AddSingleton<BlobReader>();
+
         if (import)
         {
             services.AddSingleton<ImportManager>();
