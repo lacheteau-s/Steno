@@ -11,8 +11,9 @@ public partial class ImportManager(ILogger<ImportManager> logger, BlobReader blo
     {
         await foreach (var file in _reader.GetFiles(ct))
         {
+            _logger.LogInformation("Processing file '{fileName}'", file);
+
             var content = await _reader.ReadFile(file, ct);
-            _logger.LogInformation("Processing content");
         }
     }
 }
