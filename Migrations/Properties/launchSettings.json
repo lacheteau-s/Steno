@@ -3,6 +3,7 @@
     "Migrations (Development)": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "commandLineArgs": "import",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }
