@@ -1,0 +1,2 @@
+﻿ALTER TABLE Notes
+ADD ImportChecksum VARCHAR(64) NULL;

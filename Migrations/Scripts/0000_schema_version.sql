@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS SchemaVersion;
+CREATE TABLE SchemaVersion (
+	Version INT PRIMARY KEY,
+	FileName VARCHAR(64) NOT NULL,
+	CreatedAt DATETIME NOT NULL
+);
