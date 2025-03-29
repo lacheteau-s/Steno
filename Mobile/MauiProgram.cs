@@ -2,6 +2,7 @@
 using Fonts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Mobile.Configuration;
 using Mobile.Services;
 using Mobile.ViewModels;
 using Mobile.Views;
@@ -43,12 +44,14 @@ public static class MauiProgram
 
 		services.AddSingleton<IErrorHandler, AlertErrorHandler>();
 
+		services.AddSingleton<AzureFunctionKeyHeaderHandler>();
 		services.AddRefitClient<IApiClient>()
 			.ConfigureHttpClient(c =>
 			{
 				var baseUrl = builder.Configuration.GetValue<string>("Api:BaseUrl");
 				c.BaseAddress = new Uri(baseUrl!);
-			});
+			})
+			.AddHttpMessageHandler<AzureFunctionKeyHeaderHandler>();
 
 		return builder;
 	}
@@ -57,6 +60,8 @@ public static class MauiProgram
 	{
 #if DEBUG
 		var env = "Development";
+#else
+		var env = "Production";
 #endif
 		using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Mobile.appsettings.{env}.json");
 

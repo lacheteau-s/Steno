@@ -12,7 +12,7 @@ internal sealed class DatabaseInitializer
     private readonly string _dbName;
 
     private const string CONNECTION_STRING_NAME = "Database";
-    private const string DB_EXISTS_QUERY = "SELECT DB_ID(@dbName)";
+    private const string DB_EXISTS_QUERY = "SELECT name FROM sys.databases WHERE name = @dbName";
     private const string CREATE_DB_QUERY = "EXEC('CREATE DATABASE ' + @dbName)";
 
     public DatabaseInitializer(ILogger<DatabaseInitializer> logger, IConfiguration config)
@@ -38,9 +38,9 @@ internal sealed class DatabaseInitializer
         await using var connection = new SqlConnection(_connectionStringBuilder.ConnectionString);
         await connection.OpenAsync(ct);
 
-        var id = await connection.ExecuteScalarAsync(DB_EXISTS_QUERY, new { dbName = _dbName });
+        var dbName = await connection.QuerySingleOrDefaultAsync<string>(DB_EXISTS_QUERY, new { dbName = _dbName });
 
-        if (id == null)
+        if (dbName == null)
         {
             _logger.LogInformation("Database '{dbName}' does not exists, creating...", _dbName);
             await connection.ExecuteAsync(CREATE_DB_QUERY, new { dbName = _dbName });

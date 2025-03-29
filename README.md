@@ -16,6 +16,7 @@ The project consists of the following components:
 * Azure development workload
 * SQL Server
 * Azure subscription
+* Azure Function app
 * Blob storage (Azure storage account)
 
 ## Getting started
@@ -39,3 +40,32 @@ This will run every migration script contained under _Migrations > Scripts_ and 
 
 1. Set multiple startup project: `API` and `Mobile`.
 2. Run the projects.
+
+## Deploy
+
+Follow the following steps in that exact order:
+
+### Apply migrations
+
+1. Add an `appsetting.Production.json` file at the root of the `Migrations` project.
+2. Add the `Database` and `BlobStorage` (optional) connection strings, as described [above](#run-the-migrations).
+3. Run the project in `Production` mode.
+TODO: Check database exists
+
+### Deploy Azure Function app
+
+#### Configure application settings
+
+1. Go to the Azure Portal.
+2. Go to the Function App instance.
+3. Select `Environment variables` under `Settings`.
+4. Go to `Connection strings`.
+5. Add the `Database` connection string.
+
+#### Configure publish profile
+
+Follow these [steps](https://learn.microsoft.com/en-us/azure/azure-functions/functions-develop-vs?pivots=isolated#publish-to-azure).
+
+### Deploy mobile application
+
+Follow these [steps](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-ad-hoc?view=net-maui-9.0).
