@@ -9,6 +9,13 @@
       "type": "dotnet",
       "request": "launch",
       "projectPath": "${workspaceFolder}/api/src/Steno.Api/Steno.Api.csproj"
+    },
+    {
+      "name": "Steno.Web (Firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/web"
     }
   ]
 }
