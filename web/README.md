@@ -1,6 +1,4 @@
-# {Title}
-
-{Description}
+# Steno - web app
 
 ## Requirements
 
@@ -32,6 +30,10 @@ If no valid `PORT` is specified, a default one will be assigned.
 ```sh
 npm run dev
 ```
+
+4. Debug (VS Code)
+    * Select `Web (Firefox)` from the `Run and Debug` panel.
+    * Press `F5` or click the :arrow_forward: button.
 
 ## Build for production
 
