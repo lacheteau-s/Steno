@@ -25,13 +25,13 @@ jobs:
           terraform_version: 1.11.4
 
       - name: Terraform Init
-        run: terraform init -input=false -var="project_name=steno"
+        run: terraform init -input=false
 
-      # - name: Terraform Validate
-      #   run: terraform validate
+      - name: Terraform Validate
+        run: terraform validate -no-color
 
-      # - name: Terraform Plan
-      #   run: terraform plan -input=false
+      - name: Terraform Plan
+        run: terraform plan -input=false -no-color -var="project_name=steno"
 
       # - run: "echo 'Terraform apply'"
       #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
