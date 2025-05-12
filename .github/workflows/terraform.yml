@@ -10,6 +10,12 @@ defaults:
   run:
     working-directory: ./infra
 
+env:
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+
 jobs:
   terraform:
     name: 'Terraform'
@@ -31,7 +37,7 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan -input=false -no-color -var="project_name=steno"
+        run: terraform plan -input=false -no-color -var="project_name=${{ vars.PROJECT_NAME }}"
 
       # - run: "echo 'Terraform apply'"
       #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
