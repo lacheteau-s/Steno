@@ -20,8 +20,8 @@ jobs:
         with:
           terraform_version: 1.11.4
 
-      # - name: Terraform Init
-      #   run: terraform init
+      - name: Terraform Init
+        run: terraform init -input=false -var="project_name=steno"
 
       # - name: Terraform Validate
       #   run: terraform validate
