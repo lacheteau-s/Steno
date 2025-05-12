@@ -1,0 +1,36 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - feat/**
+      - master
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.4
+
+      # - name: Terraform Init
+      #   run: terraform init
+
+      # - name: Terraform Validate
+      #   run: terraform validate
+
+      # - name: Terraform Plan
+      #   run: terraform plan -input=false
+
+      # - run: "echo 'Terraform apply'"
+      #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      # - name: Terraform Apply
+      #   if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
+      #   run: terraform apply
