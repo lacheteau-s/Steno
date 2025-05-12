@@ -6,6 +6,10 @@ on:
       - feat/**
       - master
 
+defaults:
+  run:
+    working-directory: ./infra
+
 jobs:
   terraform:
     name: 'Terraform'
