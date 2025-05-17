@@ -1,3 +1,5 @@
+using Scalar.AspNetCore;
+
 internal static class ConfigurationExtensions
 {
   public static void ConfigureServices(this IHostApplicationBuilder builder)
@@ -22,6 +24,10 @@ internal static class ConfigurationExtensions
     if (app.Environment.IsDevelopment())
     {
       app.MapOpenApi();
+      app.MapScalarApiReference("api-reference", options =>
+      {
+        options.WithTitle("Steno - API Reference");
+      });
     }
 
     app.UseHttpsRedirection();
