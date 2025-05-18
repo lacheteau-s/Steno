@@ -13,7 +13,20 @@ jobs:
     name: "Build web"
     runs-on: ubuntu-latest
     steps:
-      - name: "Web step 1"
-        run: echo "Running Web step 1"
-      - name: "Web step 2"
-        run: echo "Running Web step 2"
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Setup Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: "Install dependencies"
+        run: |
+          cd web
+          npm install
+
+      - name: "Build"
+        run: | 
+          cd web
+          npm run build

@@ -13,7 +13,16 @@ jobs:
     name: "Build API"
     runs-on: ubuntu-latest
     steps:
-      - name: "API step 1"
-        run: echo "Running API step 1"
-      - name: "API step 2"
-        run: echo "Running API step 2"
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Setup .NET"
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x'
+
+      - name: "Install dependencies"
+        run: "dotnet restore api/src/Steno.Api/Steno.Api.csproj"
+
+      - name: "Build"
+        run: "dotnet build api/src/Steno.Api/Steno.Api.csproj --configuration Release --no-restore"
