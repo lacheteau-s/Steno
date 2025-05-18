@@ -1,0 +1,19 @@
+name: "Build API"
+
+on:
+  push:
+    branches:
+      - main
+      - feat/**
+    paths:
+      - "api/**"
+
+jobs:
+  api:
+    name: "Build API"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "API step 1"
+        run: echo "Running API step 1"
+      - name: "API step 2"
+        run: echo "Running API step 2"

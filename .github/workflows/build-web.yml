@@ -1,0 +1,19 @@
+name: "Build web"
+
+on:
+  push:
+    branches:
+      - main
+      - feat/**
+    paths:
+      - "web/**"
+
+jobs:
+  api:
+    name: "Build web"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Web step 1"
+        run: echo "Running Web step 1"
+      - name: "Web step 2"
+        run: echo "Running Web step 2"
